@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculador de Órbita</title>
+    <link rel="stylesheet" href="style/central.css">
+</head>
+<body>
+    <div class="orbit-panel">
+        <h1>🛰️ Configuração de Órbita</h1>
+        
+        <div class="input-group">
+            <input 
+                type="number" 
+                id="raio" 
+                placeholder="Raio do corpo celeste em km"
+                min="10"
+                max="1000000"
+                step="10"
+            >
+            <input 
+                type="number" 
+                id="height" 
+                placeholder="Altura da orbita em km"
+                min="10"
+                max="1000000"
+                step="10"
+            >
+            <input 
+                type="number" 
+                id="atm_height" 
+                placeholder="Altura da atmosfera em kM"
+                min="10"
+                max="1000000"
+                step="10"
+            >
+            <input 
+                type="number" 
+                id="gm" 
+                placeholder="Constante Gravitacional"
+                min="10"
+                max="1000000"
+                step="10"
+            >
+            <input 
+                type="number" 
+                id="mass" 
+                placeholder="Massa do Corpo Celeste"
+                min="10"
+                max="1000000"
+                step="10"
+            >
+        </div>
+
+        <button onclick="OrbitCalc()">Calcular Órbita</button>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script src="script/result.js"></script>
+</body>
+</html>
