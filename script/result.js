@@ -3,9 +3,10 @@ function OrbitCalc() {
     // Obter valores (convertendo para número e tratando casos inválidos)
     const planet_radius     = parseFloat(document.getElementById('raio').value) || 0; // KM
     const planet_orbit      = parseFloat(document.getElementById('height').value) || 0; // KM
-    const planet_atmosphere = parseFloat(document.getElementById('atm_height').value) || 0; // KM
+    const planet_atmosphere = parseFloat(document.getElementById('atmHeight').value) || 0; // KM
     const planet_gm         = parseFloat(document.getElementById('gm').value) || 1.447e14; // Constante Gravitacional 
-    const planet_mass       = parseFloat(document.getElementById('mass').value) || 0; // Massa do Planeta
+    const rocket_mass       = parseFloat(document.getElementById('rocketMass').value) || 0; // Tonelada
+    const Twr               = parseFloat(document.getElementById('twr').value) || 1.2; // Massa do Planeta
 
     const soft = 90;
 
@@ -13,6 +14,7 @@ function OrbitCalc() {
     let radiusPlanet_meters         = planet_radius * 1000;
     let planetOrbit_meters          = planet_orbit * 1000;
     const planetAtmosphere_meters   = planet_atmosphere * 1000;
+    let rocketMass_kg               = rocket_mass * 1000
 
     let ascentAngles = [];
 
@@ -24,8 +26,10 @@ function OrbitCalc() {
             }
         
         ascentAngles.push({
-            altitude:   alt,
-            angulo:     AngleAscent(alt, planetOrbit_meters, soft)
+            altitude:           alt,
+            angulo:             AngleAscent(alt, planetOrbit_meters, soft),
+            GravidadePorAltura: heightGravity(planet_gm, radiusPlanet_meters, alt),
+            TwrPorAltura:       heightTwr(heightGravity(planet_gm, radiusPlanet_meters, alt), Twr, rocketMass_kg), 
         })
     }
     
@@ -33,25 +37,14 @@ function OrbitCalc() {
     {
         ascentAngles.push(
             {
-                altitude: planetOrbit_meters,
-                angulo: AngleAscent(alt, planetOrbit_meters, soft)
+                altitude:           planetOrbit_meters,
+                angulo:             AngleAscent(planetOrbit_meters, planetOrbit_meters, soft),
+                GravidadePorAltura: heightGravity(planet_gm, radiusPlanet_meters, alt),
+                TwrPorAltura:       heightTwr(heightGravity(planet_gm, radiusPlanet_meters, planetOrbit_meters), Twr, rocket_mass)
             }
         )
     }
 
-    let response = [
-        {
-            Angulos: ascentAngles,
-            DadosOrbitais: {
-                VelocidadeOrbital:  orbitVelocity(planet_gm, radiusPlanet_meters, planetOrbit_meters),
-                VelocidadeEscape:   escapeVelocity(planet_gm, radiusPlanet_meters, planetOrbit_meters),
-                GravidadePorAltura: heightGravity(planet_gm, radiusPlanet_meters, planetOrbit_meters),
-                TwrPorAltura:       heightTwr(heightGravity(planet_gm, radiusPlanet_meters, planetOrbit_meters), 4, 1000)
-            }
-        }
-    ]
-    
-    console.log(response)
 }
 
 function AngleAscent(h, h_max, soft = 90)
@@ -60,9 +53,9 @@ function AngleAscent(h, h_max, soft = 90)
     return Math.max(tetha, 0)
 }
 
-function orbitVelocity(GM, RADIUS, ORBIT)
+function orbitVelocity(GM, RADIUS_PLANET, ORBIT_PLANTE_METERS)
 {
-    r = RADIUS + ORBIT
+    r = RADIUS_PLANET + ORBIT_PLANTE_METERS
     return orbitSpeed = Math.sqrt(GM / r) // m/s²
 }
 

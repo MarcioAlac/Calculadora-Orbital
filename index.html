@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculador de Órbita</title>
     <link rel="stylesheet" href="style/central.css">
+    <link rel="stylesheet" href="style/return.css">
 </head>
 <body>
     <div class="orbit-panel">
@@ -29,7 +30,7 @@
             >
             <input 
                 type="number" 
-                id="atm_height" 
+                id="atmHeight" 
                 placeholder="Altura da atmosfera em kM"
                 min="10"
                 max="1000000"
@@ -38,17 +39,25 @@
             <input 
                 type="number" 
                 id="gm" 
-                placeholder="Constante Gravitacional"
+                placeholder="GM 1.447e14"
                 min="10"
                 max="1000000"
                 step="10"
             >
             <input 
                 type="number" 
-                id="mass" 
-                placeholder="Massa do Corpo Celeste"
+                id="rocketMass" 
+                placeholder="Massa do Foguete Tonelada"
                 min="10"
-                max="1000000"
+                max="100000"
+                step="10"
+            >
+            <input 
+                type="number" 
+                id="twr" 
+                placeholder="Peso/força(TWR) 1.2"
+                min="0.1"
+                max="10"
                 step="10"
             >
         </div>
@@ -57,7 +66,25 @@
 
         <div id="result" class="result"></div>
     </div>
+    
 
+    <div class="container">
+        <h1>Dados de Altitudes e Parâmetros Físicos</h1>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Altitude (m)</th>
+                    <th>Ângulo (°)</th>
+                    <th>Gravidade (m/s²)</th>
+                    <th>Newtons de Empuxo</th>
+                </tr>
+            </thead>
+            <tbody id="tabelaDados">
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script/return.js"></script>
     <script src="script/result.js"></script>
 </body>
 </html>
